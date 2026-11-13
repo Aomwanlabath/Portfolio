@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ณัฏฐา แก่นประกอบ — นักวิชาการศึกษา</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Sarabun','sans-serif'],serif:['Noto Serif Thai','serif']}}}}</script>
+  <style>
+    :root{
+      --orange:#e07020;--orange-dark:#c05818;--orange-light:#fdf3e9;
+      --dark:#1c1c1c;--text:#1a1a1a;--muted:#6b7280;
+    }
+    *{scroll-behavior:smooth}
+    body{font-family:'Sarabun',sans-serif;color:var(--text);overflow-x:hidden}
+
+    /* ── scrollbar ── */
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:#f1f5f9}
+    ::-webkit-scrollbar-thumb{background:var(--orange);border-radius:4px}
+
+    /* ── scroll-progress bar ── */
+    #progress-bar{
+      position:fixed;top:0;left:0;height:3px;width:0;
+      background:linear-gradient(90deg,var(--orange),#e88840);
+      z-index:999;transition:width .1s linear;
+    }
+
+    /* ── nav ── */
+    .site-nav{
+      position:fixed;top:0;width:100%;z-index:50;
+      background:rgba(255,255,255,.88);backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(224,112,32,.12);
+      transition:box-shadow .3s;
+    }
+    .site-nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,.08)}
+    .nav-link{position:relative;transition:color .2s}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--orange);transition:width .3s}
+    .nav-link:hover::after{width:100%}
+    .nav-link.active{color:var(--orange)}
+    .nav-link.active::after{width:100%}
+
+    /* ── hero ── */
+    .hero-wrap{
+      min-height:100svh;display:grid;grid-template-columns:1fr 1fr;
+      align-items:center;gap:0;overflow:hidden;
+      background:linear-gradient(135deg,#1a1a1a 0%,#2c2c2c 50%,#111 100%);
+      position:relative;
+    }
+    @media(max-width:768px){.hero-wrap{grid-template-columns:1fr;padding-top:80px}}
+    .hero-left{padding:7rem 4rem 5rem 6rem;position:relative;z-index:2}
+    @media(max-width:1024px){.hero-left{padding:7rem 3rem 5rem 4rem}}
+    @media(max-width:768px){.hero-left{padding:5rem 1.5rem 2rem;order:1}}
+    .hero-name{
+      font-size:clamp(2.4rem,5vw,4.2rem);font-weight:700;
+      color:#fff;white-space:nowrap;line-height:1.1;
+      letter-spacing:-.02em;
+    }
+    .hero-name .accent{color:var(--orange)}
+    .hero-role{
+      display:inline-flex;align-items:center;gap:.5rem;
+      color:#e88840;font-size:.85rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+      margin-bottom:1.2rem;
+    }
+    .role-dot{width:8px;height:8px;background:var(--orange);border-radius:50%;
+      animation:pulse-ring 2s infinite}
+    @keyframes pulse-ring{0%,100%{box-shadow:0 0 0 0 rgba(224,112,32,.5)}50%{box-shadow:0 0 0 8px rgba(224,112,32,0)}}
+    .hero-desc{color:#9ca3af;line-height:1.75;margin:1.4rem 0 2.2rem;max-width:460px;font-size:1.05rem}
+    .hero-cta-row{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+    .btn-primary{
+      background:var(--orange);color:#fff;padding:.75rem 2rem;border-radius:9999px;
+      font-weight:600;font-size:.95rem;transition:all .3s;display:inline-flex;align-items:center;gap:.4rem;
+    }
+    .btn-primary:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 12px 24px rgba(224,112,32,.3)}
+    .btn-outline{
+      border:1.5px solid rgba(224,112,32,.5);color:#e88840;padding:.75rem 2rem;border-radius:9999px;
+      font-weight:600;font-size:.95rem;transition:all .3s;
+    }
+    .btn-outline:hover{background:rgba(224,112,32,.12);transform:translateY(-2px)}
+    .hero-right{position:relative;height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    @media(max-width:768px){.hero-right{height:380px;order:0}}
+    .hero-portrait{
+      position:relative;z-index:2;
+      width:min(380px,90%);aspect-ratio:3/4;
+      border-radius:2rem;overflow:hidden;
+      box-shadow:0 32px 80px rgba(0,0,0,.5);
+      transition:transform .05s linear;
+    }
+    .hero-portrait img{width:100%;height:100%;object-fit:cover;object-position:top center}
+    .portrait-ring{
+      position:absolute;inset:-16px;border-radius:2.5rem;
+      border:2px dashed rgba(224,112,32,.3);
+      animation:spin 20s linear infinite;z-index:1;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .hero-blob{
+      position:absolute;border-radius:50%;filter:blur(80px);opacity:.2;pointer-events:none;
+    }
+    .blob1{width:500px;height:500px;background:#e07020;top:-10%;right:-10%}
+    .blob2{width:400px;height:400px;background:#9ca3af;bottom:-10%;left:-10%}
+    .hero-scroll-hint{
+      position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+      color:rgba(255,255,255,.4);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+      display:flex;flex-direction:column;align-items:center;gap:.5rem;
+    }
+    .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(224,112,32,.5),transparent);animation:line-grow 1.5s ease infinite}
+    @keyframes line-grow{0%,100%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1)}}
+
+    /* ── discipline strip ── */
+    .strip{
+      background:var(--dark);color:#9ca3af;
+      padding:.9rem 0;overflow:hidden;white-space:nowrap;
+    }
+    .strip-inner{display:inline-flex;gap:3rem;animation:marquee 25s linear infinite}
+    .strip-inner span{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase}
+    .strip-inner i{color:var(--orange)}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ── section helpers ── */
+    .page-wrap{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+    .section-space{padding:7rem 0}
+    @media(max-width:768px){.section-space{padding:4rem 0}}
+    .section-eyebrow{
+      font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--orange);margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;
+    }
+    .section-eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(224,112,32,.4),transparent);max-width:120px}
+    .section-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--dark);line-height:1.25}
+    .section-title .dim{color:var(--muted)}
+
+    /* ── reveal animation ── */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-left{opacity:0;transform:translateX(-32px);transition:opacity .65s ease,transform .65s ease}
+    .reveal-left.visible{opacity:1;transform:translateX(0)}
+    .d1{transition-delay:.05s}.d2{transition-delay:.15s}.d3{transition-delay:.25s}
+    .d4{transition-delay:.35s}.d5{transition-delay:.45s}
+
+    /* ── about ── */
+    .about-grid{display:grid;grid-template-columns:3fr 2fr;gap:4rem;align-items:start}
+    @media(max-width:900px){.about-grid{grid-template-columns:1fr}}
+    .edu-card{
+      background:linear-gradient(135deg,var(--orange-light),#fff);
+      border:1.5px solid rgba(224,112,32,.2);border-radius:1.5rem;padding:2rem;
+    }
+    .edu-badge{
+      display:inline-block;background:var(--orange);color:#fff;
+      font-size:.75rem;font-weight:700;padding:.3rem .8rem;border-radius:9999px;letter-spacing:.05em;
+      margin-bottom:.5rem;
+    }
+    .edu-honor{
+      font-size:1.4rem;font-weight:700;color:var(--orange-dark);line-height:1.3;
+      border-left:3px solid var(--orange);padding-left:.75rem;margin:1rem 0 .5rem;
+    }
+    .edu-gpa{font-size:.85rem;color:var(--muted)}
+
+    /* ── experience timeline ── */
+    .timeline-wrap{position:relative;padding-left:2rem}
+    .timeline-wrap::before{
+      content:'';position:absolute;left:0;top:4px;bottom:0;
+      width:2px;background:linear-gradient(to bottom,var(--orange),rgba(224,112,32,.1));
+    }
+    .timeline-item{position:relative;padding-bottom:3rem}
+    .timeline-item::before{
+      content:'';position:absolute;left:-2.5rem;top:6px;
+      width:12px;height:12px;background:var(--orange);border-radius:50%;
+      border:2px solid #fff;box-shadow:0 0 0 3px rgba(224,112,32,.3);
+    }
+    .timeline-date{font-size:.75rem;font-weight:700;letter-spacing:.1em;color:var(--orange);text-transform:uppercase;margin-bottom:.4rem}
+    .timeline-role{font-size:1.15rem;font-weight:700;color:var(--dark)}
+    .timeline-org{font-size:.9rem;color:var(--muted);margin-bottom:.6rem}
+    .timeline-desc{font-size:.9rem;color:#525252;line-height:1.7}
+    .tag{
+      display:inline-block;background:rgba(224,112,32,.08);color:var(--orange-dark);
+      font-size:.72rem;font-weight:600;padding:.25rem .7rem;border-radius:9999px;
+      border:1px solid rgba(224,112,32,.2);transition:all .2s;
+    }
+    .tag:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+    /* ── portfolio ── */
+    .filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+    .filter-btn{
+      padding:.5rem 1.2rem;border-radius:9999px;font-size:.85rem;font-weight:600;
+      border:1.5px solid #e2e8f0;color:var(--muted);transition:all .25s;cursor:pointer;background:#fff;
+    }
+    .filter-btn:hover,.filter-btn.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+    .project-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+      gap:1.5rem;
+    }
+    .project-card{
+      background:#fff;border-radius:1.5rem;overflow:hidden;
+      border:1px solid #e2e8f0;cursor:pointer;
+      transition:transform .3s ease,box-shadow .3s ease;
+    }
+    .project-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(224,112,32,.12)}
+    .project-card[hidden]{display:none}
+    .card-img{width:100%;height:200px;object-fit:cover;transition:transform .4s ease}
+    .project-card:hover .card-img{transform:scale(1.04)}
+    .card-img-wrap{overflow:hidden;position:relative}
+    .card-category{
+      position:absolute;top:.75rem;left:.75rem;
+      background:rgba(28,28,28,.75);backdrop-filter:blur(6px);
+      color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:.3rem .7rem;border-radius:9999px;
+    }
+    .card-body{padding:1.25rem}
+    .card-eyebrow{font-size:1.05rem;font-weight:800;color:var(--orange);letter-spacing:.01em;text-transform:none;margin-bottom:.3rem}
+    .card-title{font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.5rem;line-height:1.4;letter-spacing:.04em;text-transform:uppercase}
+    .card-summary{font-size:.85rem;color:var(--muted);line-height:1.6}
+    .card-arrow{
+      display:inline-flex;align-items:center;gap:.35rem;
+      font-size:.8rem;font-weight:600;color:var(--orange);margin-top:.8rem;
+    }
+
+    /* ── modal ── */
+    .modal-overlay{
+      position:fixed;inset:0;background:rgba(28,28,28,.85);backdrop-filter:blur(8px);
+      z-index:200;display:flex;align-items:center;justify-content:center;padding:1.5rem;
+      opacity:0;pointer-events:none;transition:opacity .3s;
+    }
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal-box{
+      background:#fff;border-radius:1.5rem;width:100%;max-width:900px;
+      max-height:90svh;overflow-y:auto;position:relative;
+      transform:translateY(24px) scale(.97);
+      transition:transform .3s ease;
+    }
+    .modal-overlay.open .modal-box{transform:translateY(0) scale(1)}
+    .modal-header{
+      position:sticky;top:0;background:#fff;z-index:10;
+      padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .modal-close{
+      width:36px;height:36px;border-radius:50%;border:1.5px solid #e2e8f0;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;
+      transition:all .2s;color:var(--muted);
+    }
+    .modal-close:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+    .modal-body{padding:1.5rem}
+    .modal-title{font-size:1.6rem;font-weight:700;color:var(--dark);margin-bottom:.5rem}
+    .modal-desc{color:#525252;line-height:1.75;margin:1rem 0 1.5rem}
+    .modal-links{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:1.5rem}
+    .modal-link{
+      display:inline-flex;align-items:center;gap:.35rem;
+      background:var(--orange-light);color:var(--orange-dark);
+      border:1px solid rgba(224,112,32,.25);padding:.5rem 1rem;border-radius:9999px;
+      font-size:.85rem;font-weight:600;transition:all .2s;
+    }
+    .modal-link:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+    .gallery-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;
+    }
+    .gallery-img{
+      width:100%;object-fit:contain;background:#f1f5f9;border-radius:1rem;cursor:pointer;
+      display:block;max-height:380px;transition:transform .3s;
+    }
+    .gallery-img:hover{transform:scale(1.02)}
+    /* video embed wrapper */
+    .video-embed-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:1rem;margin-bottom:1.5rem}
+    .video-embed-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:1rem}
+    .video-embed-label{font-size:.88rem;font-weight:600;color:var(--muted);margin-top:.5rem;padding-left:.25rem}
+
+    /* ── lightbox ── */
+    .lightbox{
+      position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;pointer-events:none;transition:opacity .3s;
+    }
+    .lightbox.open{opacity:1;pointer-events:all}
+    .lightbox img{max-width:90vw;max-height:90svh;border-radius:.75rem;object-fit:contain}
+    .lightbox-close{position:absolute;top:1rem;right:1.5rem;color:#fff;font-size:2rem;cursor:pointer;opacity:.7;transition:opacity .2s}
+    .lightbox-close:hover{opacity:1}
+    .lightbox-prev,.lightbox-next{
+      position:absolute;top:50%;transform:translateY(-50%);
+      background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:50%;
+      width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;transition:all .2s;font-size:1.2rem;
+    }
+    .lightbox-prev{left:1rem}.lightbox-next{right:1rem}
+    .lightbox-prev:hover,.lightbox-next:hover{background:var(--orange)}
+
+
+    /* ── placeholder card ── */
+    .placeholder-card{
+      border:2px dashed #cbd5e1;border-radius:1.5rem;min-height:220px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;
+      cursor:pointer;transition:all .3s;background:#fafafa;
+    }
+    .placeholder-card:hover{border-color:var(--orange);background:var(--orange-light);transform:translateY(-4px)}
+    .ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(224,112,32,.1);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--orange);transition:background .3s}
+    .placeholder-card:hover .ph-icon{background:rgba(224,112,32,.2)}
+    .ph-cat{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
+    .ph-label{font-size:.88rem;font-weight:600;color:var(--muted)}
+    .ph-hint{font-size:.72rem;color:#cbd5e1}
+
+    /* ── discipline pills (replaces marquee) ── */
+    .disc-wrap{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.5rem}
+    .disc-pill{
+      display:inline-flex;align-items:center;gap:.45rem;
+      background:var(--dark);color:#fff;
+      font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:.5rem 1.1rem;border-radius:9999px;transition:background .2s;
+    }
+    .disc-pill:hover{background:var(--orange)}
+    .disc-pill .dp-dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
+    .disc-pill:hover .dp-dot{background:#fff}
+    .tool-wrap{display:flex;flex-wrap:wrap;gap:.4rem}
+    .tool-tag{
+      font-size:.75rem;font-weight:600;color:var(--orange-dark);
+      background:var(--orange-light);border:1px solid rgba(224,112,32,.2);
+      padding:.3rem .9rem;border-radius:9999px;transition:all .2s;
+    }
+    .tool-tag:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+    /* ── beyond cards ── */
+    .beyond-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    @media(max-width:768px){.beyond-grid{grid-template-columns:1fr}}
+    .beyond-card{
+      background:#fff;border:1.5px solid #e2e8f0;border-radius:1.5rem;padding:2rem;
+      transition:all .3s;
+    }
+    .beyond-card:hover{border-color:var(--orange);box-shadow:0 16px 40px rgba(224,112,32,.1);transform:translateY(-4px)}
+    .beyond-num{font-size:.7rem;font-weight:700;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+    .beyond-title{font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:.7rem;line-height:1.4}
+    .beyond-text{font-size:.9rem;color:var(--muted);line-height:1.7}
+
+    /* ── closing / contact ── */
+    .contact-section{
+      background:var(--dark);color:#fff;text-align:center;padding:5rem 1.5rem;
+    }
+    .contact-title{font-size:clamp(.95rem,2vw,1.5rem);font-weight:700;line-height:1.3;margin-bottom:2rem}
+    .contact-email{
+      display:inline-flex;align-items:center;gap:.7rem;
+      background:var(--orange);color:#fff;padding:1rem 2.5rem;border-radius:9999px;
+      font-size:1.05rem;font-weight:600;transition:all .3s;
+    }
+    .contact-email:hover{background:#e88840;transform:translateY(-3px);box-shadow:0 16px 40px rgba(224,112,32,.4)}
+
+    /* ── mobile menu ── */
+    #mobile-menu{
+      position:fixed;top:65px;left:0;right:0;background:#fff;
+      border-bottom:1px solid #e2e8f0;z-index:49;
+      max-height:0;overflow:hidden;transition:max-height .35s ease;
+    }
+    #mobile-menu.open{max-height:300px}
+    #mobile-menu a{display:block;padding:.9rem 1.5rem;font-weight:600;color:var(--text);border-top:1px solid #f1f5f9;transition:color .2s}
+    #mobile-menu a:hover{color:var(--orange)}
+
+    /* ── parallax bg decoration ── */
+    .parallax-bg{
+      position:absolute;inset:0;pointer-events:none;overflow:hidden;
+    }
+    .parallax-circle{position:absolute;border-radius:50%;opacity:.05}
+    .pc1{width:600px;height:600px;border:1px solid #e07020;top:-200px;right:-200px}
+    .pc2{width:400px;height:400px;border:1px solid #e07020;bottom:-100px;left:50%}
+
+    /* ── skills grid ── */
+    .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    @media(max-width:640px){.skills-grid{grid-template-columns:1fr}}
+    .skill-item{
+      display:flex;align-items:center;gap:.7rem;
+      background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:.8rem 1rem;
+      transition:all .2s;
+    }
+    .skill-item:hover{border-color:var(--orange);background:var(--orange-light)}
+    .skill-dot{width:8px;height:8px;background:var(--orange);border-radius:50%;flex-shrink:0}
+
+    /* ── timeline dropdown ── */
+    .tl-details{margin-top:.75rem}
+    .tl-details>summary{
+      cursor:pointer;list-style:none;user-select:none;
+      display:inline-flex;align-items:center;gap:.35rem;
+      font-size:.82rem;font-weight:700;color:var(--orange);
+      padding:.3rem 0;transition:color .2s;
+    }
+    .tl-details>summary::-webkit-details-marker{display:none}
+    .tl-details>summary::before{content:'▸';font-size:.62rem;display:inline-block;transition:transform .2s ease}
+    .tl-details[open]>summary::before{transform:rotate(90deg)}
+    .tl-details>summary:hover{color:var(--orange-dark)}
+    .tl-detail-body{
+      margin-top:.75rem;padding:1rem 1.25rem;
+      background:#fff;border-radius:1rem;border-left:3px solid rgba(224,112,32,.35);
+    }
+    .tl-ds{margin-bottom:.9rem}
+    .tl-ds:last-child{margin-bottom:0}
+    .tl-ds-title{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:.4rem}
+    .tl-ds ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.4rem}
+    .tl-ds li{font-size:.82rem;color:#525252;line-height:1.65;padding-left:.9rem;position:relative}
+    .tl-ds li::before{content:'·';position:absolute;left:0;color:var(--orange);font-weight:700}
+    .tl-ds li strong{color:var(--dark)}
+  </style>
+</head>
+<body>
+
+  <!-- scroll progress -->
+  <div id="progress-bar"></div>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <header class="site-nav" id="site-nav">
+    <div class="page-wrap" style="padding-top:.9rem;padding-bottom:.9rem;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+      <a href="#hero" style="font-weight:800;color:var(--orange);font-size:1.05rem;letter-spacing:-.01em">NG<span style="color:var(--muted)">.</span></a>
+      <nav class="hidden md:flex items-center gap-7" id="desktop-nav">
+        <a href="#about"      class="nav-link text-sm font-semibold text-neutral-500">เกี่ยวกับ</a>
+        <a href="#experience" class="nav-link text-sm font-semibold text-neutral-500">ประสบการณ์</a>
+        <a href="#portfolio"  class="nav-link text-sm font-semibold text-neutral-500">ผลงาน</a>
+        <a href="#beyond"     class="nav-link text-sm font-semibold text-neutral-500">Beyond</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="btn-primary hidden md:inline-flex" style="padding:.55rem 1.4rem;font-size:.85rem">ติดต่อ</a>
+        <button id="menu-toggle" class="md:hidden p-2 rounded-lg border border-slate-200" aria-label="เมนู">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu">
+      <a href="#about">เกี่ยวกับ</a>
+      <a href="#experience">ประสบการณ์</a>
+      <a href="#portfolio">ผลงาน</a>
+      <a href="#beyond">Beyond</a>
+      <a href="#contact" style="color:var(--orange)">ติดต่อ</a>
+    </div>
+  </header>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="hero" class="hero-wrap">
+    <div class="parallax-bg">
+      <div class="parallax-circle pc1"></div>
+      <div class="parallax-circle pc2"></div>
+      <div class="hero-blob blob1"></div>
+      <div class="hero-blob blob2"></div>
+    </div>
+
+    <div class="hero-left">
+      <div class="hero-role" style="animation:fadeUp .6s ease both">
+        <span class="role-dot"></span>EDUCATOR
+      </div>
+      <h1 class="hero-name" style="animation:fadeUp .6s .15s ease both">
+        ณัฏฐา แก่นประกอบ
+      </h1>
+      <p class="hero-desc" style="animation:fadeUp .6s .3s ease both">
+        ผู้เชี่ยวชาญด้านเทคโนโลยีการศึกษาและมัลติมีเดีย<br>
+        ที่มีประสบการณ์ในการพัฒนาระบบอัตโนมัติ การจัดการข้อมูล<br>
+        และการผลิตสื่อ Interactive โดดเด่นด้านการผสมผสานทักษะ Full-stack Development เข้ากับ Art Direction<br>
+        เพื่อแก้ปัญหาคอขวดในองค์กร มีประวัติการสร้าง Dashboard วิเคราะห์ข้อมูลระดับนโยบาย<br>
+        พาองค์กรคว้ารางวัลระดับภูมิภาคเอเชียและผลักดันนวัตกรรมการเรียนรู้รูปแบบใหม่<br>
+      </p>
+      <div style="display:flex;align-items:center;gap:.7rem;padding:.7rem 1.1rem;background:rgba(224,112,32,.12);border-radius:1rem;border:1px solid rgba(224,112,32,.25);margin-bottom:2rem;animation:fadeUp .6s .38s ease both;width:fit-content">
+        <svg width="15" height="15" fill="none" stroke="#e88840" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <a href="mailto:nattha.ganprakob@gmail.com" style="color:#e88840;font-weight:600;font-size:.82rem">nattha.ganprakob@gmail.com</a>
+      </div>
+      <div class="hero-cta-row" style="animation:fadeUp .6s .45s ease both">
+        <a href="#portfolio" class="btn-primary">สำรวจผลงาน ↓</a>
+        <a href="#about"     class="btn-outline">รู้จักฉัน</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div style="position:relative">
+        <div class="portrait-ring"></div>
+        <div class="hero-portrait" id="hero-portrait">
+          <img src="./01.jpg" alt="ณัฏฐา แก่นประกอบ" loading="eager" onerror="this.src='Port%20web/nattha-portfolio/dist/assets/portrait.webp'">
+        </div>
+        <div style="position:absolute;bottom:-1rem;left:-1.5rem;background:rgba(224,112,32,.12);backdrop-filter:blur(8px);border:1px solid rgba(224,112,32,.25);border-radius:1rem;padding:.7rem 1rem;color:#e88840;font-size:.78rem;font-weight:700;z-index:3">
+          Design × Technology × Education
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section id="about" class="section-space" style="background:#fff">
+    <div class="page-wrap">
+      <div class="about-grid">
+
+        <div class="reveal">
+          <div class="section-eyebrow">About Me</div>
+          <h2 class="section-title" style="margin-bottom:1.5rem">
+            หลากหลายทักษะ<br><span class="dim">เพื่อการประยุกต์ใช้</span>
+          </h2>
+          <p style="color:#525252;line-height:1.8;margin-bottom:1.2rem">
+            ด้วยพื้นฐานด้านวิทยาการคอมพิวเตอร์ประยุกต์–มัลติมีเดีย ทำงานบนจุดเชื่อมต่อของการออกแบบ
+            การพัฒนาระบบ และการศึกษา ตั้งแต่สร้างสื่อที่สื่อสารได้ชัดเจน
+            ไปจนถึงพัฒนาเครื่องมือที่ช่วยให้การทำงานง่ายขึ้น
+          </p>
+          <!-- skills -->
+          <div style="margin-top:2rem">
+            <p style="font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">ความเชี่ยวชาญ</p>
+            <div class="disc-wrap">
+              <span class="disc-pill"><span class="dp-dot"></span>Creative Design</span>
+              <span class="disc-pill"><span class="dp-dot"></span>Data Analysis</span>
+              <span class="disc-pill"><span class="dp-dot"></span>Web Development</span>
+              <span class="disc-pill"><span class="dp-dot"></span>Educational Technology</span>
+              <span class="disc-pill"><span class="dp-dot"></span>Video Production</span>
+              <span class="disc-pill"><span class="dp-dot"></span>Project Management</span>
+            </div>
+            <p style="font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem">เครื่องมือ</p>
+            <div class="tool-wrap">
+              <span class="tool-tag">Google Sheets</span>
+              <span class="tool-tag">MySQL</span>
+              <span class="tool-tag">Looker Studio</span>
+              <span class="tool-tag">WordPress</span>
+              <span class="tool-tag">PHP</span>
+              <span class="tool-tag">Apps Script</span>
+              <span class="tool-tag">Graphic Design</span>
+              <span class="tool-tag">Video Editing</span>
+              <span class="tool-tag">AI Application</span>
+              <span class="tool-tag">Roblox / Lua</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education card -->
+        <div class="reveal d2">
+          <div class="edu-card">
+            <span class="edu-badge">การศึกษา</span>
+            <div class="edu-honor">เกียรตินิยมอันดับที่ 2</div>
+            <p style="font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:.25rem">วิทยาศาสตรบัณฑิต</p>
+            <p style="font-size:.9rem;color:var(--orange-dark);font-weight:600;margin-bottom:.3rem">วิทยาการคอมพิวเตอร์ประยุกต์ — มัลติมีเดีย</p>
+            <p style="font-size:.88rem;color:var(--muted);margin-bottom:1rem">มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี</p>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:.8rem;color:var(--muted)">สำเร็จการศึกษา พ.ศ. 2563</span>
+              <span class="edu-gpa">GPAX 3.44</span>
+            </div>
+            <hr style="margin:1.25rem 0;border-color:rgba(224,112,32,.15)">
+            <p style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">ความสามารถ</p>
+            <div style="display:flex;flex-direction:column;gap:.6rem">
+              <div style="display:flex;align-items:flex-start;gap:.6rem">
+                <span style="font-size:.7rem;font-weight:700;color:var(--orange);background:rgba(224,112,32,.1);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">01</span>
+                <div><p style="font-weight:600;font-size:.88rem;color:var(--dark)">Design & Storytelling</p><p style="font-size:.8rem;color:var(--muted)">ออกแบบ · ภาพถ่าย · วิดีโอ</p></div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:.6rem">
+                <span style="font-size:.7rem;font-weight:700;color:var(--orange);background:rgba(224,112,32,.1);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">02</span>
+                <div><p style="font-weight:600;font-size:.88rem;color:var(--dark)">Technology & Data</p><p style="font-size:.8rem;color:var(--muted)">เว็บไซต์ · ระบบ · วิเคราะห์ข้อมูล</p></div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:.6rem">
+                <span style="font-size:.7rem;font-weight:700;color:var(--orange);background:rgba(224,112,32,.1);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">03</span>
+                <div><p style="font-weight:600;font-size:.88rem;color:var(--dark)">Learning & People</p><p style="font-size:.8rem;color:var(--muted)">โครงการ · สื่อสาร · การศึกษา</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EXPERIENCE ═══ -->
+  <section id="experience" class="section-space" style="background:#f4f4f4">
+    <div class="page-wrap">
+      <div class="section-eyebrow reveal">My Journey</div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:start" class="reveal" id="exp-grid">
+        <div>
+          <h2 class="section-title">เรียนรู้ ลงมือทำ<br><span class="dim">และเติบโต</span></h2>
+          <p style="color:var(--muted);margin-top:1rem;line-height:1.75;font-size:.95rem">ทุกบทบาทคือโอกาสในการเรียนรู้และต่อยอดทักษะให้ไปได้ไกลขึ้น</p>
+        </div>
+        <div class="timeline-wrap">
+
+          <!-- ── มหาวิทยาลัยมหิดล ── -->
+          <div class="timeline-item reveal d1">
+            <div class="timeline-date">2565 – 2569 · บทบาทปัจจุบัน</div>
+            <div class="timeline-role">นักวิชาการศึกษา (Educator)</div>
+            <div class="timeline-org">งานเทคโนโลยีการศึกษา กองบริหารการศึกษา มหาวิทยาลัยมหิดล</div>
+            <p class="timeline-desc">พัฒนาระบบและสื่อการเรียนรู้ บริหารโครงการ AI ระดับมหาวิทยาลัย วิเคราะห์ข้อมูลและสร้าง Dashboard เสนอผู้บริหาร รวมถึงผลิตสื่อ Digital Media กว่า 200+ ชิ้นงาน</p>
+            <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem">
+              <span class="tag">Educational Technology</span>
+              <span class="tag">Data Analytics</span>
+              <span class="tag">Web Development</span>
+              <span class="tag">Creative Design</span>
+            </div>
+            <details class="tl-details">
+              <summary>ดูรายละเอียด</summary>
+              <div class="tl-detail-body">
+                <div class="tl-ds">
+                  <div class="tl-ds-title">Technology &amp; Policy</div>
+                  <ul>
+                    <li>บริหาร <strong>The MIRACLE Project</strong> งบ 2.2 ล้านบาท นำมหาวิทยาลัยคว้า <strong>Coursera 2026 AI PIONEER AWARD – REGIONAL WINNER</strong> ระดับเอเชีย สร้าง Engagement 1,900+ คน</li>
+                    <li>บริหารงานเสวนาออนไลน์ระดับมหาวิทยาลัย (Town Hall &amp; Voice Forum) ผู้เข้าร่วม 800+ คน รักษาอัตราการมีส่วนร่วม <strong>เฉลี่ย 129–148 นาที/คน</strong></li>
+                    <li>บริหาร <strong>MU(x) Gamification Hackathon</strong> ดึงดูดผลงาน 108 ชิ้น ความพึงพอใจ 4.33/5.00</li>
+                  </ul>
+                </div>
+                <div class="tl-ds">
+                  <div class="tl-ds-title">Data Analytics &amp; BI</div>
+                  <ul>
+                    <li>วิเคราะห์ข้อมูลผลสำรวจและงานเสวนาด้วย Google Sheets → Insight เชิงนโยบายสู่ผู้บริหาร</li>
+                    <li>ออกแบบ <strong>Dashboard Real-time</strong> ติดตาม MUAI Academic Leader + แนวปฏิบัติ Generative AI พ.ศ. 2568 ลดการทำสรุปแบบ Manual</li>
+                  </ul>
+                </div>
+                <div class="tl-ds">
+                  <div class="tl-ds-title">Web Development &amp; Automation</div>
+                  <ul>
+                    <li><strong>MUx Support (Google Apps Script)</strong>: Forms → Dashboard → ระบบอีเมลอัตโนมัติ ลดเวลาตรวจสอบเอกสาร 100%</li>
+                    <li><strong>Document Management System (PHP/MySQL)</strong> Full-stack ด้วย AI ให้ผู้ใช้จัดการเอกสารได้เอง ลดคอขวดในองค์กร</li>
+                    <li><strong>WordPress SEO Optimization</strong> → 75,000 impressions / 4,400 คลิก ภายใน 1 เดือน</li>
+                  </ul>
+                </div>
+                <div class="tl-ds">
+                  <div class="tl-ds-title">Creative Tech &amp; Production</div>
+                  <ul>
+                    <li>Art Director งาน <strong>Mahidol University Educator Awards</strong> Stage, โล่รางวัล, แสง, สื่อ ความพึงพอใจ <strong>4.72/5.00</strong></li>
+                    <li>ผลิต Podcast <strong>"เรื่องของ(A)I"</strong> ยอดรับชมรวม 2,700+ ชั่วโมง เข้าถึง 259,600+ ครั้ง</li>
+                    <li>Digital Media &amp; Motion Ads <strong>200+ ชิ้นงาน</strong> ส่งมอบตรงกำหนด 100%</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <!-- ── มหาวิทยาลัยมหามกุฏราชวิทยาลัย ── -->
+          <div class="timeline-item reveal d2">
+            <div class="timeline-date">2568 – 2569 · รับจ้างอิสระ</div>
+            <div class="timeline-role">นักวิเคราะห์ข้อมูลและจัดทำรายงาน (Freelance)</div>
+            <div class="timeline-org">มหาวิทยาลัยมหามกุฏราชวิทยาลัย</div>
+            <p class="timeline-desc">วิเคราะห์ข้อมูลผู้ใช้งาน Speexx 3,000+ รายการ ออกแบบ Executive Dashboard เสนอผู้บริหาร และพัฒนาระบบติดตามโครงการประกวดคลิปภาษาอังกฤษ</p>
+            <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem">
+              <span class="tag">Dashboard</span>
+              <span class="tag">Looker Studio</span>
+              <span class="tag">Google Sheets</span>
+            </div>
+            <details class="tl-details">
+              <summary>ดูรายละเอียด</summary>
+              <div class="tl-detail-body">
+                <div class="tl-ds">
+                  <ul>
+                    <li>จัดการและวิเคราะห์ข้อมูลผู้ใช้งาน <strong>Speexx 3,000+ รายการ</strong> เจาะลึกระดับวิทยาเขต คณะ และชั้นปี เพื่อสนับสนุนการตัดสินใจเชิงนโยบาย</li>
+                    <li>ออกแบบและพัฒนา <strong>Dashboard</strong> รายงานผลโครงการประกวดคลิปวิดีโอภาษาอังกฤษ ให้ผู้บริหารติดตาม On-Demand</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <!-- ── สาธิตจุฬาฯ ── -->
+          <div class="timeline-item reveal d3">
+            <div class="timeline-date">2563 – 2565</div>
+            <div class="timeline-role">นักประชาสัมพันธ์</div>
+            <div class="timeline-org">โรงเรียนสาธิตจุฬาลงกรณ์มหาวิทยาลัย ฝ่ายมัธยม</div>
+            <p class="timeline-desc">จัดทำสื่อ PR ทุกรูปแบบ ทั้งวารสารโรงเรียน โปสเตอร์ แบนเนอร์ และสื่อดิจิทัล รวมถึงถ่ายทำและตัดต่อวิดีโอ</p>
+            <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem">
+              <span class="tag">Editorial Design</span>
+              <span class="tag">Photography</span>
+              <span class="tag">Video</span>
+            </div>
+            <details class="tl-details">
+              <summary>ดูรายละเอียด</summary>
+              <div class="tl-detail-body">
+                <div class="tl-ds">
+                  <ul>
+                    <li>จัดทำ <strong>วารสารสาธิตจุฬาฯ สาร 8+ ฉบับ</strong> ตั้งแต่มีนาคม 2564 ถึงเมษายน 2565</li>
+                    <li>ออกแบบโปสเตอร์ แบนเนอร์ประชาสัมพันธ์โครงการและกิจกรรมของโรงเรียน</li>
+                    <li>ถ่ายทำและตัดต่อวิดีโอ รวมถึง Motion Graphic สำหรับสื่อดิจิทัล</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <!-- ── จุดเริ่มต้น ── 
+          <div class="timeline-item reveal d4" style="padding-bottom:0">
+            <div class="timeline-date">2561 – 2563</div>
+            <div class="timeline-role">จุดเริ่มต้นงานสร้างสรรค์</div>
+            <div class="timeline-org">Data Viz · Motion Graphic · Video Production</div>
+            <p class="timeline-desc">เริ่มจาก Data Visualization ที่ BETTER PHARMA ต่อด้วยงาน Script + Storyboard สำหรับ Nano Tech Viral Video และงานถ่ายทำ–ตัดต่อวิดีโอการศึกษา</p>
+            <details class="tl-details">
+              <summary>ดูรายละเอียด</summary>
+              <div class="tl-detail-body">
+                <div class="tl-ds">
+                  <ul>
+                    <li>Data Visualization และออกแบบ Infographic ที่ <strong>BETTER PHARMA</strong></li>
+                    <li>เขียน Script + วาด Storyboard สำหรับ <strong>Nano Tech Viral Video</strong></li>
+                    <li>ถ่ายทำ–ตัดต่อวิดีโอการศึกษา สำหรับสื่อการเรียนการสอน</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>-->
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PORTFOLIO ═══ -->
+  <section id="portfolio" class="section-space" style="background:#fff">
+    <div class="page-wrap">
+      <div class="section-eyebrow reveal">Portfolio</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:2.5rem" class="reveal">
+        <h2 class="section-title">ความคิดที่กลายเป็น<br><span class="dim">ผลงานจริง</span></h2>
+        <p style="color:var(--muted);max-width:280px;font-size:.9rem;line-height:1.7">กดที่การ์ดเพื่อดูรายละเอียดและแกลเลอรีรูปภาพ</p>
+      </div>
+      <div class="filter-bar reveal" id="filter-bar" role="group" aria-label="กรองหมวดหมู่">
+        <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
+        <button class="filter-btn" data-filter="technology">Technology & Data</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+        <button class="filter-btn" data-filter="media">Media</button>
+        <button class="filter-btn" data-filter="events">Projects & Events</button>
+        <button class="filter-btn" data-filter="personal">Beyond Work</button>
+      </div>
+      <div class="project-grid" id="project-grid"></div>
+    </div>
+  </section>
+
+  <!-- ═══ BEYOND ═══ -->
+  <section id="beyond" class="section-space" style="background:#f4f4f4">
+    <div class="page-wrap">
+      <div class="section-eyebrow reveal">Beyond the Everyday</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:2.5rem" class="reveal">
+        <h2 class="section-title">แรงบันดาลใจ<br><span class="dim">ไม่ได้หยุดที่งาน</span></h2>
+      </div>
+      <div class="beyond-grid">
+        <div class="beyond-card reveal d1">
+          <!-- MOCK IMAGE — แทนที่ด้วยรูปภาพจริงได้ภายหลัง -->
+          <div style="width:100%;height:160px;border-radius:1rem;overflow:hidden;margin-bottom:1.25rem;background:linear-gradient(135deg,#fff7ed,#fed7aa);display:flex;align-items:center;justify-content:center;position:relative">
+            <img src="Port%20web/nattha-portfolio/dist/assets/independent-01.webp" alt="รางวัล" style="width:100%;height:100%;object-fit:cover;border-radius:1rem" onerror="this.style.display='none'">
+            <span style="position:absolute;font-size:.7rem;font-weight:600;color:#ea580c;background:rgba(255,247,237,.8);padding:.3rem .7rem;border-radius:9999px;pointer-events:none">📷 ใส่รูปภาพที่นี่</span>
+          </div>
+          <div class="beyond-num">01 / RECOGNITION</div>
+          <h3 class="beyond-title">Ideas that make a difference.</h3>
+          <p class="beyond-text">รางวัลชนะเลิศการประกวดนโยบายด้านการศึกษา และการประกวดสื่อส่งเสริมความเท่าเทียมทางเพศ รวมถึงเกียรติบัตรจากโครงการต่าง ๆ ของมหาวิทยาลัยมหิดล</p>
+        </div>
+        <div class="beyond-card reveal d2">
+          <!-- MOCK IMAGE — แทนที่ด้วยรูปภาพจริงได้ภายหลัง -->
+          <div style="width:100%;height:160px;border-radius:1rem;overflow:hidden;margin-bottom:1.25rem;background:linear-gradient(135deg,#f0f9ff,#bae6fd);display:flex;align-items:center;justify-content:center;position:relative">
+            <img src="Port%20web/nattha-portfolio/dist/assets/independent-07.webp" alt="Roblox" style="width:100%;height:100%;object-fit:cover;border-radius:1rem" onerror="this.style.display='none'">
+            <span style="position:absolute;font-size:.7rem;font-weight:600;color:#0369a1;background:rgba(240,249,255,.8);padding:.3rem .7rem;border-radius:9999px;pointer-events:none">📷 ใส่รูปภาพที่นี่</span>
+          </div>
+          <div class="beyond-num">02 / CREATIVE PLAY</div>
+          <h3 class="beyond-title">Play. Build. Learn. Repeat.</h3>
+          <p class="beyond-text">ออกแบบและพัฒนาเกม Khaosan Water Fight! บน Roblox ทดลองใช้ AI ช่วยเขียนและปรับปรุงโค้ดภาษา Lua เพื่อเปลี่ยนไอเดียให้เล่นได้จริง</p>
+        </div>
+        <div class="beyond-card reveal d3">
+          <!-- MOCK IMAGE — แทนที่ด้วยรูปภาพจริงได้ภายหลัง -->
+          <div style="width:100%;height:160px;border-radius:1rem;overflow:hidden;margin-bottom:1.25rem;background:linear-gradient(135deg,#f0fdf4,#bbf7d0);display:flex;align-items:center;justify-content:center;position:relative">
+            <img src="Port%20web/nattha-portfolio/dist/assets/independent-14.webp" alt="Saturday School" style="width:100%;height:100%;object-fit:cover;border-radius:1rem" onerror="this.style.display='none'">
+            <span style="position:absolute;font-size:.7rem;font-weight:600;color:#166534;background:rgba(240,253,244,.8);padding:.3rem .7rem;border-radius:9999px;pointer-events:none">📷 ใส่รูปภาพที่นี่</span>
+          </div>
+          <div class="beyond-num">03 / GIVE BACK</div>
+          <h3 class="beyond-title">Small moments. Meaningful impact.</h3>
+          <p class="beyond-text">ครูอาสาโครงการ Saturday School จัดการเรียนรู้นอกเวลาเรียนเพื่อส่งเสริมศักยภาพนักเรียนประถมศึกษา</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact" class="contact-section reveal">
+    <div class="section-eyebrow reveal" style="justify-content:center;color:#e88840">Contact</div>
+    <h2 class="contact-title" style="white-space:nowrap">พร้อมสนทนาเพิ่มเติมได้เสมอ</h2>
+    <a href="mailto:nattha.ganprakob@gmail.com" class="contact-email">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      nattha.ganprakob@gmail.com
+    </a>
+    <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:800px;margin-left:auto;margin-right:auto">
+      <span style="color:#525252;font-size:.85rem">© 2026 ณัฏฐา แก่นประกอบ</span>
+      <span style="color:#525252;font-size:.8rem">Thoughtfully designed. Purposefully made.</span>
+    </div>
+  </section>
+
+  <!-- ═══ MODAL ═══ -->
+  <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span id="modal-eyebrow" style="font-size:.72rem;font-weight:700;color:var(--orange);letter-spacing:.12em;text-transform:uppercase"></span>
+        <button class="modal-close" id="modal-close" aria-label="ปิด">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h2 id="modal-title" class="modal-title"></h2>
+        <div id="modal-tags" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem"></div>
+        <p id="modal-desc" class="modal-desc"></p>
+        <div id="modal-links" class="modal-links"></div>
+        <div id="modal-gallery" class="gallery-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ LIGHTBOX ═══ -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="ดูภาพขยาย">
+    <button class="lightbox-close" id="lb-close" aria-label="ปิด">✕</button>
+    <button class="lightbox-prev" id="lb-prev" aria-label="ภาพก่อนหน้า">‹</button>
+    <img id="lb-img" src="" alt="">
+    <button class="lightbox-next" id="lb-next" aria-label="ภาพถัดไป">›</button>
+  </div>
+
+  <style>@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}</style>
+
+  <script>
+  /* ── PROJECT DATA ── */
+  const ASSETS = 'Port%20web/nattha-portfolio/dist/assets/';
+  const PROJECTS = [
+    {
+      id:'system-web', title:'เว็บไซต์และระบบจัดการเอกสาร', eyebrow:'WEB DEVELOPMENT',
+      category:'technology', cover:'system-01.webp',
+      summary:'พัฒนาเว็บไซต์กองบริหารการศึกษาและระบบอัปโหลดเอกสารแบบ Full-stack',
+      description:'ออกแบบและพัฒนาเว็บไซต์กองบริหารการศึกษา มหาวิทยาลัยมหิดล ด้วย WordPress ปรับโครงสร้าง SEO จนสร้าง Impressions 75,000 ครั้งและคลิก 4,400 ครั้งภายใน 1 เดือน พร้อมพัฒนาระบบ Document Management (PHP & MySQL) ให้ผู้ใช้งานอัปโหลดและจัดการเอกสารได้ด้วยตนเอง ลดคอขวดในการทำงาน',
+      tags:['WordPress','PHP / MySQL','SEO'],
+      links:[{label:'เว็บไซต์กองบริหารการศึกษา',url:'https://muaa.mahidol.ac.th/'}],
+      images:['system-01.webp','system-02.webp','system-03.webp']
+    },
+    {
+      id:'system-mux', title:'ระบบแจ้งปัญหาและอีเมลอัตโนมัติ', eyebrow:'AUTOMATION SYSTEM',
+      category:'technology', cover:'system-05.webp',
+      summary:'พัฒนา MUx Support ด้วย Google Apps Script เชื่อมต่อฟอร์มกับ Dashboard และระบบแจ้งอีเมลอัตโนมัติ',
+      description:'พัฒนาระบบแจ้งปัญหาผู้ใช้งาน MUx Support ด้วย Google Apps Script เชื่อมต่อ Google Forms สู่ Dashboard พัฒนาระบบยิงอีเมลอัตโนมัติตามเทมเพลต ลดเวลาตรวจสอบเอกสาร 100% ไม่ต้องพึ่งแอดมินในการดำเนินการ',
+      tags:['Google Apps Script','Automation','Google Forms'],
+      links:[],
+      images:['system-04.webp','system-05.webp','system-06.webp','system-07.webp']
+    },
+    {
+      id:'data-speexx', title:'รายงานผลการใช้งาน Speexx', eyebrow:'DATA ANALYTICS',
+      category:'technology', cover:'data-01.webp',
+      summary:'วิเคราะห์ข้อมูลผู้ใช้งาน Speexx 3,000+ รายการ เพื่อสนับสนุนการตัดสินใจเชิงนโยบาย',
+      description:'จัดการและวิเคราะห์ข้อมูลผู้ใช้งานระบบเรียนภาษาอังกฤษ Speexx ของมหาวิทยาลัยมหามกุฏราชวิทยาลัย กว่า 3,000+ รายการ เจาะลึกถึงระดับวิทยาเขต คณะ และชั้นปี ',
+      tags:['Data Analysis','Data Studio','Google Sheets'],
+      links:[],
+      images:['data-01.webp','data-02.webp','data-03.webp']
+    },
+    {
+      id:'data-ai', title:'Dashboard นโยบาย Generative AI', eyebrow:'DATA ANALYTICS',
+      category:'technology', cover:'data-04.webp',
+      summary:'ออกแบบ Dashboard ติดตามผลสำรวจแนวปฏิบัติ AI ในหลักสูตรมหาวิทยาลัยมหิดล พ.ศ. 2568',
+      description:'ออกแบบและพัฒนา Dashboard รายงานผลแบบ Real-time สำหรับการประเมินผลการดำเนินงานของอาจารย์ในโครงการ MUAI Academic Leader และการสำรวจการนำแนวปฏิบัติ Generative AI (พ.ศ. 2568) ไปปรับใช้ในหลักสูตร ช่วยลดระยะเวลาการทำสรุปรายงานแบบ Manual ให้ผู้บริหารเข้าถึงสถิติได้ทันที',
+      tags:['App Script','Google Sheets'],
+      links:[],
+      images:['data-04.webp','data-05.webp','data-06.webp']
+    },
+    {
+      id:'pin', title:'MUPSF Pin', eyebrow:'MEANINGFUL DESIGN',
+      category:'design', cover:'pin-01.webp',
+      summary:'ถ่ายทอดความหมายของการเป็นอาจารย์ ผ่านรายละเอียดของเข็มกลัด',
+      description:'ออกแบบเข็มกลัดแรงบันดาลใจจากดอกกันภัยมหิดล สื่อถึงความตั้งใจของอาจารย์ในการปกป้องนักศึกษา ตัวเข็มกลัดสีทองสื่อถึงความเจริญรุ่งเรือง พลอยสีน้ำเงินสื่อถึงความเป็นหนึ่งเดียว และปลายยอดฉลุโปร่ง 4 ชั้นสะท้อนมาตรฐานคุณภาพอาจารย์ทั้ง 4 ระดับ',
+      tags:['Product Design','Visual Identity','MUPSF'],
+      links:[{label:'ชมวิดีโอเบื้องหลังความหมาย',url:'https://www.youtube.com/watch?v=T60EHQ1pQEg'}],
+      images:['pin-01.webp','pin-02.webp','pin-03.webp']
+    },
+    {
+      id:'posters', title:'สื่อสารให้เห็นภาพ', eyebrow:'GRAPHIC DESIGN',
+      category:'design', cover:'posters-01.webp',
+      summary:'ออกแบบสื่อประชาสัมพันธ์โครงการและรายวิชาออนไลน์ของมหาวิทยาลัย',
+      description:'ผลงานออกแบบโปสเตอร์ประชาสัมพันธ์โครงการต่าง ๆ ของกองบริหารการศึกษา และสื่อประชาสัมพันธ์รายวิชาออนไลน์จาก Mahidol University Extension (MUx)',
+      tags:['Graphic Design','Public Relations'],
+      links:[{label:'รายละเอียดผลงานเดิม',url:'https://sites.google.com/view/nattha-ganprakob/pr/posters'}],
+      images:['posters-01.webp','posters-02.webp','posters-03.webp','posters-04.webp','posters-05.webp','posters-06.webp','posters-07.webp','posters-08.webp','posters-09.webp','posters-10.webp','posters-11.webp','posters-12.webp','posters-13.webp','posters-14.webp','posters-15.webp','posters-16.webp','posters-17.webp','posters-18.webp','posters-19.webp','posters-20.webp','posters-21.webp','posters-22.webp','posters-23.webp','posters-24.webp','posters-25.webp','posters-26.webp','posters-27.webp','posters-28.webp','posters-29.webp','posters-30.webp','posters-31.webp','posters-32.webp','posters-33.webp','posters-34.webp','posters-35.webp','posters-36.webp','posters-37.webp','posters-38.webp','posters-39.webp','posters-40.webp','posters-41.webp','posters-42.webp','posters-43.webp','posters-44.webp','posters-45.webp','posters-46.webp','posters-47.webp','posters-48.webp','posters-49.webp','posters-50.webp','posters-51.webp']
+    },
+    {
+      id:'backdrops', title:'ออกแบบบรรยากาศของงาน', eyebrow:'EVENT BACKDROPS',
+      category:'design', cover:'backdrops-01.webp',
+      summary:'สร้างภาพจำให้เวทีและกิจกรรม ด้วยงานออกแบบ Backdrop',
+      description:'ผลงานออกแบบ Backdrop สำหรับพิธีมอบประกาศนียบัตรรับรองมาตรฐานคุณภาพอาจารย์ตามกรอบ UKPSF พิธีมอบรางวัลโครงการอาจารย์ต้นแบบด้านการสอน และโครงการต่าง ๆ ของกองบริหารการศึกษา',
+      tags:['Backdrop Design','Event Identity'],
+      links:[{label:'รายละเอียดผลงานเดิม',url:'https://sites.google.com/view/nattha-ganprakob/pr/backdrops'}],
+      images:['backdrops-01.webp','backdrops-02.webp','backdrops-03.webp','backdrops-04.webp','backdrops-05.webp','backdrops-06.webp','backdrops-07.webp','backdrops-08.webp','backdrops-09.webp','backdrops-10.webp','backdrops-11.webp']
+    },
+    {
+      id:'certificates', title:'ออกแบบคุณค่าแห่งความสำเร็จ', eyebrow:'PLAQUES & CERTIFICATES',
+      category:'design', cover:'certificates-01.webp',
+      summary:'ผลงานออกแบบโล่รางวัลและเกียรติบัตรสำหรับโครงการทางการศึกษา',
+      description:'ออกแบบโล่รางวัลและเกียรติบัตรสำหรับโครงการทางการศึกษา รับผิดชอบตั้งแต่การออกแบบ ประสานบริษัทผู้ผลิต จัดซื้อจัดจ้าง',
+      tags:['Award Design','Certificate','Visual Communication'],
+      links:[{label:'รายละเอียดผลงานเดิม',url:'https://sites.google.com/view/nattha-ganprakob/pr/plaques-certificates'}],
+      images:['certificates-01.webp','certificates-02.webp','certificates-03.webp','certificates-04.webp','certificates-05.webp','certificates-06.webp','certificates-07.webp','certificates-08.webp','certificates-09.webp','certificates-10.webp','certificates-11.webp','certificates-12.webp','certificates-13.webp','certificates-14.webp','certificates-15.webp']
+    },
+    {
+      id:'journals', title:'เรื่องราวบนหน้ากระดาษ', eyebrow:'EDITORIAL DESIGN',
+      category:'design', cover:'journals-02.webp',
+      summary:'งานออกแบบวารสารสาธิตจุฬาฯ สาร และ E-book เพื่อการสื่อสารองค์กร',
+      description:'จัดทำวารสารสาธิตจุฬาฯ ตั้งแต่มีนาคม 2564 ถึงกุมภาพันธ์–เมษายน 2565 รวมฉบับพิเศษและฉบับสัมภาษณ์รองผู้อำนวยการ',
+      tags:['Editorial Design','Publication','E-book'],
+      links:[{label:'กุมภาพันธ์–เมษายน 2565',url:'https://online.pubhtml5.com/tmzu/vyts/'},{label:'พฤศจิกายน–มกราคม',url:'https://online.pubhtml5.com/tmzu/fuql/'},{label:'กรกฎาคม–สิงหาคม 2564',url:'https://online.pubhtml5.com/tmzu/hmcd/'},{label:'มีนาคม 2564',url:'https://online.pubhtml5.com/tmzu/vrqv/'}],
+      images:['journals-01.webp','journals-02.webp','journals-03.webp','journals-04.webp','journals-05.webp','journals-06.webp','journals-07.webp','journals-08.webp']
+    },
+    {
+      id:'video', title:'เรื่องราวที่เคลื่อนไหว', eyebrow:'VIDEO & MOTION',
+      category:'media', cover:'pin-01.webp',
+      summary:'สร้างสรรค์วิดีโอตั้งแต่บทพูด การถ่ายทำ ตัดต่อ ไปจนถึงพากย์เสียง',
+      description:'ผลิตวิดีโอ The profound meaning of MUPSF pin (Script, ถ่ายทำ, ตัดต่อ, พากย์เสียง) วิดีโอกิจกรรม MU(x) Gamification Hackathon วิดีโอประชาสัมพันธ์รายวิชาออนไลน์ MUx และ Motion Graphic',
+      tags:['Video Production','Motion Graphic','Storytelling'],
+      links:[{label:'MUPSF Pin — ความหมายที่ซ่อนอยู่',url:'https://www.youtube.com/watch?v=T60EHQ1pQEg'},{label:'MU(x) Gamification Hackathon',url:'https://www.youtube.com/watch?v=WsOCBgp73U0'},{label:'I Am What I Am',url:'https://www.youtube.com/watch?v=vzDefXWMh6E'},{label:'WE ARE CUD!',url:'https://www.youtube.com/watch?v=0R7NRjB-mWw'}],
+      images:[]
+    },
+    {
+      id:'photography', title:'เก็บช่วงเวลาผ่านเลนส์', eyebrow:'PHOTOGRAPHY',
+      category:'media', cover:'photography-01.webp',
+      summary:'ผลงานภาพถ่าย บุคคล กิจกรรม และรายละเอียดในแต่ละช่วงเวลา',
+      description:'รวมผลงาน Photography ถ่ายทอดภาพบุคคล บรรยากาศกิจกรรม และมุมมองผ่านเลนส์',
+      tags:['Photography','People','Events'],
+      links:[{label:'แฟ้มภาพถ่ายเดิม',url:'https://sites.google.com/view/nattha-ganprakob/photography'}],
+      images:['photography-01.webp','photography-02.webp','photography-03.webp','photography-04.webp','photography-05.webp','photography-06.webp','photography-07.webp','photography-08.webp','photography-09.webp','photography-10.webp','photography-11.webp','photography-12.webp']
+    },
+    {
+      id:'projects', title:'พื้นที่สำหรับไอเดียใหม่', eyebrow:'PROJECT MANAGEMENT',
+      category:'events', cover:'projects-01.webp',
+      summary:'บริหารโครงการที่เปิดพื้นที่ให้คนรุ่นใหม่ร่วมออกแบบอนาคตการเรียนรู้',
+      description:'บริหารโครงการประกวด MU(x) Gamification Hackathon และ Online Learning Pitching Contest ครอบคลุมการขออนุมัติ จัดซื้อจัดจ้าง ประสานวิทยากร และออกแบบรูปแบบการประกวด',
+      tags:['Project Management','Gamification','Online Learning'],
+      links:[{label:'รายละเอียดโครงการ',url:'https://sites.google.com/view/nattha-ganprakob/projects'},{label:'วิดีโอกิจกรรม Hackathon',url:'https://www.youtube.com/watch?v=WsOCBgp73U0'}],
+      images:['projects-01.webp','projects-02.webp']
+    },
+    {
+      id:'booth', title:'ออกบูธตลาดนัดหลักสูตร', eyebrow:'EDUCATION FAIR',
+      category:'events', cover:'mc-01.webp',
+      summary:'ประชาสัมพันธ์หลักสูตรและให้คำแนะนำ TCAS ในงานตลาดนัดหลักสูตรอุดมศึกษา ครั้งที่ 28',
+      description:'ประชาสัมพันธ์หลักสูตรของมหาวิทยาลัยมหิดลในงานตลาดนัดหลักสูตรอุดมศึกษา ครั้งที่ 28 ณ มหาวิทยาลัยอุบลราชธานี ให้คำแนะนำด้านการศึกษาต่อและข้อมูล TCAS 2570 แก่นักเรียนและผู้ปกครอง',
+      tags:['Education Fair','Public Relations','TCAS'],
+      links:[],
+      images:['mc-01.webp','mc-02.webp','mc-03.webp']
+    },
+    {
+      id:'mc-host', title:'พิธีกรงานปีใหม่ Happy New Year 2025', eyebrow:'MC & HOSTING',
+      category:'events', cover:'mc-04.webp',
+      summary:'ดำเนินรายการบนเวทีงานปีใหม่สำนักงานอธิการบดี มหาวิทยาลัยมหิดล',
+      description:'ดำเนินรายการในฐานะพิธีกรงานเลี้ยงปีใหม่สำนักงานอธิการบดี "Happy New Year 2025" บริหารบรรยากาศบนเวที ประสานงานการแสดง และสร้างความสนุกสนานให้ผู้เข้าร่วมงาน',
+      tags:['MC','Public Speaking','Event Hosting'],
+      links:[],
+      images:['mc-04.webp','mc-05.webp']
+    },
+    {
+      id:'independent-awards', title:'รางวัลและการยอมรับ', eyebrow:'RECOGNITION',
+      category:'personal', cover:'independent-01.webp',
+      summary:'รางวัลชนะเลิศ Youth Policy Lab 2023 และรางวัลสื่อส่งเสริมความเท่าเทียมทางเพศ',
+      description:'รางวัลชนะเลิศการออกแบบนโยบายการศึกษา Youth Policy Lab 2023 เพื่อ "เปลี่ยน" กรุงเทพมหานคร รางวัลชนะเลิศประกวดภาพโปสเตอร์ส่งเสริมความเท่าเทียมระหว่างเพศ รางวัลชมเชย AI Vibe Coding Workshop และสมาชิกสภาเมืองคนรุ่นใหม่กรุงเทพมหานคร ครั้งที่ 2/2567',
+      tags:['Youth Policy Lab','Award','Social Impact'],
+      links:[],
+      images:['independent-01.webp','independent-02.webp','independent-03.webp','independent-04.webp','independent-05.webp','independent-06.webp','independent-07.webp','independent-08.webp']
+    },
+    {
+      id:'independent-roblox', title:'Khaosan Water Fight! เกม Roblox', eyebrow:'GAME DEVELOPMENT',
+      category:'personal', cover:'independent-09.webp',
+      summary:'ริเริ่มและพัฒนาเกม Multiplayer Action บน Roblox มียอดผู้เล่นสะสม 70,100 Visits',
+      description:'ออกแบบและพัฒนาเกม Multiplayer แนว Action "Khaosan Water Fight!" บนแพลตฟอร์ม Roblox ด้วย Luau Scripting ร่วมกับ AI สร้างระบบ State Machine AI สำหรับควบคุมพฤติกรรม NPC ออกแบบระบบอาวุธและการเล็งเป้าหมาย รองรับมุมมอง FPS/TPS ยอดผู้เล่นสะสม 70,100 Visits เรตติ้งความพึงพอใจ 82%',
+      tags:['Roblox / Luau','Game Design','AI-Assisted Dev'],
+      links:[{label:'เล่น Khaosan Water Fight!',url:'https://www.roblox.com/th/games/86391536140920/Khaosan-Water-Fight'}],
+      images:['independent-09.webp','independent-10.webp','independent-11.webp','independent-12.webp','independent-13.webp','independent-14.webp']
+    },
+    {
+      id:'independent-volunteer', title:'ครูอาสา Saturday School', eyebrow:'VOLUNTEER TEACHING',
+      category:'personal', cover:'independent-15.webp',
+      summary:'ครูอาสาสอนนักเรียนโรงเรียนสังกัด กทม. ภายใต้โครงการ Saturday School 2567–2568',
+      description:'ครูอาสาสอนนักเรียนในโรงเรียนสังกัดกรุงเทพมหานคร ภายใต้โครงการ Saturday School พ.ศ. 2567–2568 ถ่ายทอดความรู้และทักษะให้กับเยาวชนนอกเวลาเรียนปกติ รวมถึง Co-facilitator ค่ายวิทยาศาสตร์มัธยมศึกษา',
+      tags:['Volunteer Teaching','Education','Saturday School'],
+      links:[],
+      images:['independent-15.webp','independent-16.webp','independent-17.webp','independent-18.webp','independent-19.webp']
+    },
+    /* ── PLACEHOLDER CARDS — กรอกข้อมูลเองได้ภายหลัง ── */
+    {
+      id:'ph-technology', title:'[ชื่อผลงาน Technology]', eyebrow:'TECHNOLOGY & DATA',
+      category:'technology', cover:'',
+      summary:'[คำอธิบายสั้น ๆ เกี่ยวกับผลงาน]',
+      description:'[รายละเอียดผลงาน — แก้ไขข้อความและรูปภาพได้ตามต้องการ]',
+      tags:['Tag 1','Tag 2','Tag 3'], links:[], images:[]
+    },
+    {
+      id:'ph-design', title:'[ชื่อผลงาน Design]', eyebrow:'DESIGN',
+      category:'design', cover:'',
+      summary:'[คำอธิบายสั้น ๆ เกี่ยวกับผลงาน]',
+      description:'[รายละเอียดผลงาน — แก้ไขข้อความและรูปภาพได้ตามต้องการ]',
+      tags:['Tag 1','Tag 2','Tag 3'], links:[], images:[]
+    },
+    {
+      id:'ph-media', title:'[ชื่อผลงาน Media]', eyebrow:'MEDIA',
+      category:'media', cover:'',
+      summary:'[คำอธิบายสั้น ๆ เกี่ยวกับผลงาน]',
+      description:'[รายละเอียดผลงาน — แก้ไขข้อความและรูปภาพได้ตามต้องการ]',
+      tags:['Tag 1','Tag 2','Tag 3'], links:[], images:[]
+    },
+    {
+      id:'ph-events', title:'[ชื่อผลงาน Events]', eyebrow:'PROJECTS & EVENTS',
+      category:'events', cover:'',
+      summary:'[คำอธิบายสั้น ๆ เกี่ยวกับผลงาน]',
+      description:'[รายละเอียดผลงาน — แก้ไขข้อความและรูปภาพได้ตามต้องการ]',
+      tags:['Tag 1','Tag 2','Tag 3'], links:[], images:[]
+    },
+    {
+      id:'ph-personal', title:'[ชื่อผลงาน Beyond Work]', eyebrow:'BEYOND WORK',
+      category:'personal', cover:'',
+      summary:'[คำอธิบายสั้น ๆ เกี่ยวกับผลงาน]',
+      description:'[รายละเอียดผลงาน — แก้ไขข้อความและรูปภาพได้ตามต้องการ]',
+      tags:['Tag 1','Tag 2','Tag 3'], links:[], images:[]
+    }
+  ];
+
+  /* ── RENDER PROJECT GRID ── */
+  function buildCard(p){
+    const el = document.createElement('article');
+    el.dataset.category = p.category;
+    el.dataset.id = p.id;
+
+    /* placeholder card */
+    if(p.id.startsWith('ph-')){
+      el.className = 'placeholder-card reveal';
+      el.innerHTML = `
+        <div class="ph-icon">+</div>
+        <div class="ph-cat">${p.eyebrow}</div>
+        <div class="ph-label">[ผลงานใหม่]</div>
+        <div class="ph-hint">คลิกเพื่อดูตัวอย่าง mock modal</div>`;
+      el.addEventListener('click',()=>openModal(p));
+      return el;
+    }
+
+    const isEvent = p.category==='events';
+    el.className = 'project-card reveal' + (isEvent ? ' card--event' : '');
+    const coverSrc = p.cover ? `${ASSETS}${p.cover}` : '';
+    el.innerHTML = `
+      <div class="card-img-wrap">
+        ${coverSrc ? `<img class="card-img" src="${coverSrc}" alt="${p.title}" loading="lazy">` : '<div class="card-img" style="background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#cbd5e1;font-size:.75rem">ยังไม่มีภาพ</div>'}
+        <span class="card-category">${p.eyebrow}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-eyebrow">${p.eyebrow}</div>
+        <h3 class="card-title">${p.title}</h3>
+        <p class="card-summary">${p.summary}</p>
+        <span class="card-arrow">ดูรายละเอียด →</span>
+      </div>`;
+
+    el.addEventListener('click',()=>openModal(p));
+    return el;
+  }
+
+  const grid = document.getElementById('project-grid');
+  PROJECTS.forEach(p=>grid.appendChild(buildCard(p)));
+
+  /* ── FILTER ── */
+  document.getElementById('filter-bar').addEventListener('click',e=>{
+    const btn = e.target.closest('.filter-btn');
+    if(!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(c=>{
+      const show = f==='all' || c.dataset.category===f;
+      c.hidden = !show;
+    });
+  });
+
+  /* ── MODAL ── */
+  const overlay = document.getElementById('modal-overlay');
+  let lbImages=[], lbIndex=0;
+
+  function openModal(p){
+    document.getElementById('modal-eyebrow').textContent = p.eyebrow;
+    document.getElementById('modal-title').textContent   = p.title;
+    document.getElementById('modal-desc').textContent    = p.description || '';
+    const tags = document.getElementById('modal-tags');
+    tags.innerHTML = p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+    const linksEl = document.getElementById('modal-links');
+    /* video: hide link buttons — play inside modal via embed */
+    if(p.id==='video'){
+      linksEl.innerHTML = '';
+    } else {
+      linksEl.innerHTML = p.links.filter(l=>!l.label.includes('เดิม')).map(l=>`<a href="${l.url}" target="_blank" rel="noopener" class="modal-link">${l.label} ↗</a>`).join('');
+    }
+    const gallery = document.getElementById('modal-gallery');
+
+    if(p.id==='video'){
+      /* single-column full-width YouTube embeds */
+      lbImages = [];
+      gallery.style.gridTemplateColumns = '1fr';
+      gallery.innerHTML = p.links.map(l=>{
+        const m = l.url.match(/(?:v=|youtu\.be\/)([^&?]+)/);
+        if(!m) return '';
+        return `<div style="margin-bottom:1.5rem">
+          <div class="video-embed-wrap">
+            <iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p class="video-embed-label">${l.label}</p>
+        </div>`;
+      }).join('');
+
+    } else if(p.id==='journals'){
+      /* 5-column grid — click image → open that journal's URL */
+      lbImages = [];
+      gallery.style.gridTemplateColumns = 'repeat(5,1fr)';
+      gallery.innerHTML = p.images.map((img,i)=>{
+        const lIdx = p.links.length ? Math.min(Math.floor(i*p.links.length/p.images.length), p.links.length-1) : 0;
+        const url  = p.links[lIdx]?.url || '#';
+        const tip  = p.links[lIdx]?.label || '';
+        return `<a href="${url}" target="_blank" rel="noopener" title="${tip}"
+            style="display:block;border-radius:.75rem;overflow:hidden;border:1.5px solid #e5e5e5;transition:transform .2s,box-shadow .2s"
+            onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 20px rgba(224,112,32,.18)'"
+            onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <img src="${ASSETS}${img}" alt="${tip}" loading="lazy"
+            style="width:100%;display:block;object-fit:contain;background:#f8f8f8">
+        </a>`;
+      }).join('');
+
+    } else {
+      lbImages = p.images.map(i=>ASSETS+i);
+      gallery.style.gridTemplateColumns = '';
+      gallery.innerHTML = p.images.map((img,i)=>
+        `<img class="gallery-img" src="${ASSETS}${img}" alt="${p.title} ${i+1}" loading="lazy" data-idx="${i}">`
+      ).join('');
+      gallery.querySelectorAll('.gallery-img').forEach(img=>{
+        img.addEventListener('click',()=>openLightbox(+img.dataset.idx));
+      });
+    }
+
+    overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+
+  document.getElementById('modal-close').addEventListener('click',closeModal);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal()});
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow='';
+    /* pause any embedded videos on close */
+    document.querySelectorAll('#modal-gallery iframe').forEach(f=>{f.src=f.src});
+  }
+
+  /* ── LIGHTBOX ── */
+  const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lb-img');
+  function openLightbox(i){lbIndex=i;lbImg.src=lbImages[i];lb.classList.add('open')}
+  document.getElementById('lb-close').addEventListener('click',()=>lb.classList.remove('open'));
+  lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open')});
+  document.getElementById('lb-prev').addEventListener('click',()=>{lbIndex=(lbIndex-1+lbImages.length)%lbImages.length;lbImg.src=lbImages[lbIndex]});
+  document.getElementById('lb-next').addEventListener('click',()=>{lbIndex=(lbIndex+1)%lbImages.length;lbImg.src=lbImages[lbIndex]});
+
+  /* ── KEYBOARD ── */
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){closeModal();lb.classList.remove('open')}
+    if(lb.classList.contains('open')){
+      if(e.key==='ArrowLeft')document.getElementById('lb-prev').click();
+      if(e.key==='ArrowRight')document.getElementById('lb-next').click();
+    }
+  });
+
+  /* ── SCROLL REVEAL ── */
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+  },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal,.reveal-left').forEach(el=>io.observe(el));
+
+  /* ── PARALLAX HERO PORTRAIT ── */
+  const portrait = document.getElementById('hero-portrait');
+  window.addEventListener('scroll',()=>{
+    const y = window.pageYOffset;
+    if(portrait && y < window.innerHeight*1.2){
+      portrait.style.transform = `translateY(${y*0.12}px)`;
+    }
+    // scroll progress
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (y/total*100)+'%';
+    // sticky nav shadow
+    document.getElementById('site-nav').classList.toggle('scrolled', y>50);
+    // active nav link
+    const sections = ['about','experience','portfolio','beyond','contact'];
+    sections.forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      const rect = el.getBoundingClientRect();
+      const link = document.querySelector(`.nav-link[href="#${id}"]`);
+      if(link) link.classList.toggle('active', rect.top<=80 && rect.bottom>80);
+    });
+  },{passive:true});
+
+  /* ── MOBILE MENU ── */
+  document.getElementById('menu-toggle').addEventListener('click',()=>{
+    document.getElementById('mobile-menu').classList.toggle('open');
+  });
+  document.querySelectorAll('#mobile-menu a').forEach(a=>
+    a.addEventListener('click',()=>document.getElementById('mobile-menu').classList.remove('open'))
+  );
+
+  /* ── experience grid responsive ── */
+  function checkExpGrid(){
+    const g = document.getElementById('exp-grid');
+    if(g) g.style.gridTemplateColumns = window.innerWidth<900 ? '1fr' : '1fr 2fr';
+  }
+  checkExpGrid();
+  window.addEventListener('resize',checkExpGrid,{passive:true});
+  </script>
+</body>
+</html>
